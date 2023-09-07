@@ -10,15 +10,19 @@ Railway では Git で自分が取り組んだ内容を記録するときに、�
 
 ### 必要なツール
 
-1. Node.js v14.17.0以降（v16.0.0以降を推奨します。）
-2. Yarn
+1. Node.js v16以降（v18以降を推奨します。）
+2. Yarn (v1)
+3. Visual Studio Code
+4. Railway VS Code拡張
 
-上記 2 つをインストールする必要があります。
+上記 4 つをインストールする必要があります。
 
 ### インストール済みの場合
 
 ```shell
 yarn install
+yarn playwright install
+code .
 ```
 
 のコマンドを実行し、すぐに問題に取り組み始めることができます。
@@ -31,13 +35,10 @@ Homebrew を使ってインストールすることを想定しています。
 
 #### 1. Homebrew のインストール
 
-Terminal.app を開き、次のコマンドをコピーアンドペーストで実行してください。
-
-```shell
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
+[Homebrew](https://brew.sh/index_ja) 公式の案内にしたがってインストールしてください。
 
 すでにインストール済みの方は、この手順を飛ばしてください。
+
 インストールされたかどうかを確認するには、Terminal.app を開いて
 
 ```shell
@@ -47,10 +48,6 @@ brew -v
 を実行してください。インストール済みであれば次のような表示になるはずです。
 
 ![スクリーンショット 2021-04-25 15 42 19](https://user-images.githubusercontent.com/16362021/115983568-eba85d80-a5dc-11eb-9e1a-49462edc2d46.png)
-
-何か起こった際には次の公式サイトを確認してください。
-
-https://brew.sh/index_ja
 
 #### 2. Node.js のインストール
 
@@ -209,21 +206,8 @@ cd html-stations
 
 ```powershell
 yarn install
+yarn playwright install
 ```
-
-```powershell
-yarn hook:update
-```
-
-#### TechTrain へのログイン
-
-では、最後に TechTrain にログインしましょう。画面の指示に従い入力を進めてください。
-
-```powershell
-yarn login:techtrain
-```
-
-お疲れ様でした。
 
 ## 自分のリポジトリの状態を最新の TechBowl-japan/html-stations と合わせる
 
@@ -268,6 +252,8 @@ git push
 yarn install
 ```
 
+## トラブルシューティング
+
 ### GitHubアカウントでサインアップしたので、パスワードがないという方へ
 
 https://techtrain.dev/resetpassword
@@ -283,3 +269,25 @@ https://techtrain.dev/mypage/profile
 
 1. 問題文を修正しました
 2. テストケースの不具合に対しても対応したため、このテキストの上部にある「自分のリポジトリの状態を最新に更新」を試してみてください。
+
+### 最新の状態に更新後、Gitでのコミットに失敗する場合
+
+TechTrain Railway CLIが最新の更新で取り除かれ、Railwayへの挑戦はVS Code機能拡張に一本化されます。
+そのため、Git Hooksに関連する機能も削除されました。すでに挑戦を開始している方は、pre-commit hookが残っておりGitでのコミットに失敗する可能性があります。その際は、
+
+
+```shell
+rm .git/hooks/pre-commit
+```
+
+を実行してください。
+
+### WSL（Windows）でテストが失敗する場合
+
+ヘッドレスブラウザによるE2Eによるテストの都合上、WSLではなくWindowsネイティブでの実行を推奨しています。
+
+WSLで本Railwayを進める際は、Playwrightの依存関係をWSL側にインストールする必要があります。
+
+```shell
+sudo yarn playwright install-deps
+```
